@@ -65,8 +65,8 @@ function NewPosition({
                         <select name="Section" id="PositionSections"
                             className={`form-control ${isValid('Section')}`}
                             onChange={change} value={Section}>
-                            {Sections.length > 0 && Sections.map(({ Id, Name }) =>
-                                <option value={Id}>{Name}</option>)}
+                            {Sections.length > 0 && Sections.map(({ Id, Name }, index) =>
+                                <option key={index} value={Id}>{Name}</option>)}
                         </select>
                     </div>
 
