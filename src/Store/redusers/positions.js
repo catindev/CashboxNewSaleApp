@@ -12,9 +12,11 @@ export const edit = (state, action) => ({
 
 export const storno = (state, action) => {
     const Positions = [...state.Positions];
-    Positions[action.index] = { ...Positions[action.index] };
-    Positions[action.index].Storno = !Positions[action.index].Storno;
-    return { ...state, Positions };
+    Positions[action.index] = {
+        ...Positions[action.index],
+        Storno: !Positions[action.index].Storno
+    };
+    return { ...state, Positions }
 }
 
 export default { add, edit, storno }
