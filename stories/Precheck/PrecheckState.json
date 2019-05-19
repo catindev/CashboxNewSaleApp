@@ -1,0 +1,38 @@
+{
+   "Balances": {
+      "Cash": 500,
+      "NonCash": 5000
+   },
+   "Positions": [
+      {
+         "Index": 1,
+         "Name": "Молочко",
+         "SectionName": "Без НДС",
+         "Price": 1000,
+         "Qty": 2,
+         "Discount": 10,
+         "Markup": 0,
+         "Storno": false
+      },
+      {
+         "Index": 2,
+         "Name": "Хлебушкек",
+         "SectionName": "Товары с НДС",
+         "Nds": true,
+         "Price": 100,
+         "Qty": 3,
+         "Storno": true
+      },
+      {
+         "Index": 1,
+         "Name": "Сижки",
+         "SectionName": "Товары с НДС",
+         "Nds": true,
+         "Price": 400,
+         "Qty": 4,
+         "Discount": 3,
+         "Markup": 12,
+         "Storno": false
+      }
+   ]
+}

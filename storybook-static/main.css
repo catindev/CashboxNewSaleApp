@@ -1,0 +1,22 @@
+.bPosition { 
+  -webkit-transition: all .1s ease-in-out; 
+  transition: all .1s ease-in-out;
+  line-height: 1.25;
+  zoom: 1; 
+}
+
+.bPosition:hover {
+  -webkit-transform: scale(1.15);
+          transform: scale(1.15);
+  z-index: 999;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+.bPosition:hover .bPosition__buttons { 
+  display:block !important; 
+}
+
+
+/*# sourceMappingURL=main.css.map*/
