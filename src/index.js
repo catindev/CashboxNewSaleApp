@@ -2,14 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux'
-import configureStore from './Store/configure'
+import setupStore from './Store/index'
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-const store = configureStore({
-    Token: 'HiIamFakeToken:p',
+const store = setupStore({
+    Token: 'BearerTokenString',
+    Sections: [],
+    PositionForm: {
+        "Name": "123",
+        "Price": 0,
+        "Markup": 0,
+        "Discount": 0,
+        "Qty": 1,
+        "Section": 0
+    },
     Positions: []
 });
 

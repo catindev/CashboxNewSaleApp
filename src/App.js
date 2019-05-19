@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { connect, ReactReduxContext } from 'react-redux'
+import { connect } from 'react-redux'
 import './App.css';
 
-import { addPosition } from './Store/actions';
+import { addPosition, editPosition } from './Store/actions/positions';
+import { fetchSections } from './Store/actions/sections';
 
 import NewPosition from './Components/NewPosition/NewPosition'
 import Position from './Components/Precheck/Position/Position';
@@ -10,52 +11,17 @@ import Total from './Components/Precheck/Total/Total';
 import Header from './Components/Precheck/Header/Header';
 
 
-
-const PrecheckState = {
-  "Balances": {
-    "Cash": 500,
-    "NonCash": 5000
-  },
-  "Positions": [
-    {
-      "Index": 1,
-      "Name": "Молочко",
-      "SectionName": "Без НДС",
-      "Price": 1000,
-      "Qty": 2,
-      "Discount": 10,
-      "Markup": 0,
-      "Storno": false
-    },
-    {
-      "Index": 2,
-      "Name": "Хлебушкек",
-      "SectionName": "Товары с НДС",
-      "Nds": true,
-      "Price": 100,
-      "Qty": 3,
-      "Storno": true
-    },
-    {
-      "Index": 1,
-      "Name": "Сижки",
-      "SectionName": "Товары с НДС",
-      "Nds": true,
-      "Price": 400,
-      "Qty": 4,
-      "Discount": 3,
-      "Markup": 12,
-      "Storno": false
-    }
-  ]
-}
-
 class App extends Component {
+  componentDidMount() {
+    const { IdKkm, Token } = this.props;
+    this.props.dispatch(fetchSections({ IdKkm, Token }));
+  }
 
+  change = newFormData => this.props.dispatch(editPosition(newFormData))
 
   render() {
     console.log('props', this.props)
-    const { Positions } = this.props
+    const { Sections, Positions = [], PositionForm = {} } = this.props
 
     return (
       <div className="container pt-4">
@@ -73,9 +39,9 @@ class App extends Component {
 
           <div className="col-md-7 order-md-1 pr-3">
             <NewPosition
-              Errors={{}}
-              Sections={[]}
-              OnChange={() => { }}
+              Sections={Sections}
+              {...PositionForm}
+              OnChange={this.change}
               OnSubmit={() => {
                 this.props.dispatch(addPosition({
                   "Index": 1,
@@ -96,8 +62,8 @@ class App extends Component {
   }
 }
 
-function mapState({ Positions }) {
-  return { Positions }
+function mapState({ Sections, Positions, PositionForm }) {
+  return { Sections, Positions, PositionForm }
 }
 
 export default connect(mapState)(App)

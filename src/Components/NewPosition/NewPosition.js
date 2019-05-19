@@ -68,6 +68,12 @@ function NewPosition({
                             {Sections.length > 0 && Sections.map(({ Id, Name }, index) =>
                                 <option key={index} value={Id}>{Name}</option>)}
                         </select>
+                        {Sections.length === 0 && (
+                            <small className="form-text text-muted">
+                                <span class="spinner-border spinner-border-sm"></span>
+                                Loading...
+                            </small>
+                        )}
                     </div>
 
                     <div className="form-group col-md-2">
