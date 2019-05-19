@@ -1,29 +1,15 @@
-import {
-    FETCH_SECTIONS,
-    SECTIONS_FETCHED,
-    SECTIONS_ERROR
-} from '../actions/sections';
+export const fetchItems = state => ({ ...state, Fetching: true });
 
-export default function sectionsReducer(state = {}, action) {
-    switch (action.type) {
-        case FETCH_SECTIONS:
-            return { ...state, Fetching: true }
+export const onFetched = (state, action) => ({
+    ...state,
+    Sections: action.Sections,
+    Fetching: false
+});
 
-        case SECTIONS_FETCHED:
-            return {
-                ...state,
-                Sections: action.Sections,
-                Fetching: false
-            }
+export const onError = (state, action) => ({
+    ...state,
+    SectionsError: 'Не удалось загрузить справочник',
+    Fetching: false
+})
 
-        case SECTIONS_ERROR:
-            return {
-                ...state,
-                SectionsError: 'Не удалось загрузить справочник',
-                Fetching: false
-            }
-
-        default:
-            return state
-    }
-}
+export default { fetchItems, onFetched, onError }

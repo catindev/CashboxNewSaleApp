@@ -10,7 +10,7 @@ export default function configure(initialState) {
         reduser, initialState,
         compose(
             applyMiddleware(thunkMiddleware, loggerMiddleware),
-            window.devToolsExtension ? window.devToolsExtension() : f => f
+            window.window.__REDUX_DEVTOOLS_EXTENSION__ ? window.window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
         )
     )
 }

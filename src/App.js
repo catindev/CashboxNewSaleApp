@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import './App.css';
 
 import { addPosition, editPosition } from './Store/actions/positions';
 import { fetchSections } from './Store/actions/sections';
 
-import NewPosition from './Components/NewPosition/NewPosition'
-import Position from './Components/Precheck/Position/Position';
-import Total from './Components/Precheck/Total/Total';
-import Header from './Components/Precheck/Header/Header';
+import Precheck from './Components/Precheck/Precheck';
+import NewPosition from './Components/NewPosition/NewPosition';
 
 
 class App extends Component {
@@ -20,7 +18,6 @@ class App extends Component {
   change = newFormData => this.props.dispatch(editPosition(newFormData))
 
   render() {
-    console.log('props', this.props)
     const { Sections, Positions = [], PositionForm = {} } = this.props
 
     return (
@@ -29,12 +26,7 @@ class App extends Component {
 
         <div className="row">
           <div className="col-md-5 order-md-2 mb-5 ">
-            <Header Length={Positions.length} />
-            <ul className="list-group mb-3">
-              {Positions.map(i => <Position {...i} onClickStorno={() => { }} />)}
-              <Total Total={123} Cash={456}
-                NonCash={789} Change={0} />
-            </ul>
+            <Precheck Positions={Positions} />
           </div>
 
           <div className="col-md-7 order-md-1 pr-3">
@@ -44,7 +36,6 @@ class App extends Component {
               OnChange={this.change}
               OnSubmit={() => {
                 this.props.dispatch(addPosition({
-                  "Index": 1,
                   "Name": "Молочко",
                   "SectionName": "Без НДС",
                   "Price": 1000,

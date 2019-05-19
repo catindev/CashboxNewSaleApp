@@ -1,56 +1,36 @@
-// import { combineReducers } from 'redux';
-// import positions from './positions';
-// import sections from './sections';
-
 import {
+    EDIT_POSITION,
     ADD_POSITION,
-    EDIT_POSITION
+    TOGGLE_POSITION_STORNO
 } from '../actions/positions';
+import { add, edit, storno } from './positions';
 
 import {
     FETCH_SECTIONS,
     SECTIONS_FETCHED,
     SECTIONS_ERROR
 } from '../actions/sections';
+import { fetchItems, onFetched, onError } from './sections';
 
 export default function mainReducer(state = {}, action) {
     switch (action.type) {
-        case ADD_POSITION:
-            return {
-                ...state, Positions: [
-                    ...state.Positions, action.Position
-                ]
-            }
-
-        case EDIT_POSITION:
-            return {
-                ...state, PositionForm: {
-                    ...state.PositionForm, ...action.payload
-                }
-            }
-
+        // Sections reducers
         case FETCH_SECTIONS:
-            return { ...state, Fetching: true }
-
+            return fetchItems(state, action);
         case SECTIONS_FETCHED:
-            return {
-                ...state,
-                Sections: action.Sections,
-                Fetching: false
-            }
-
+            return onFetched(state, action);
         case SECTIONS_ERROR:
-            return {
-                ...state,
-                SectionsError: 'Не удалось загрузить справочник',
-                Fetching: false
-            }
+            return onError(state, action);
+
+        // Positions reducers
+        case ADD_POSITION:
+            return add(state, action);
+        case EDIT_POSITION:
+            return edit(state, action);
+        case TOGGLE_POSITION_STORNO:
+            return storno(state, action);
 
         default:
-            return state
+            return state;
     }
 }
-
-// export default combineReducers({
-//     positions, sections
-// })

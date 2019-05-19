@@ -12,10 +12,12 @@ import FormatMoney from '../../../Utils/FormatMoney';
 
 function Position({
     Index, Name, SectionName, Nds = false, Qty = 1, Markup = 0, Discount = 0,
-    Storno = false, Price, Cost, onClickStorno
+    Storno = false, Price, Cost, onStorno = () => { }
 }) {
+    // 🙈 Monkey patch. Rem0ve later
     const Total = Cost ? Cost : CalculatePositionCost({ Price, Qty, Markup, Discount });
-    const toggleStornoStyles = Storno ?
+
+    const buttonStyles = Storno ?
         'btn btn-outline-secondary btn-sm'
         :
         'btn btn-danger btn-sm';
@@ -42,8 +44,8 @@ function Position({
             </div>
 
             <div className="pt-2 d-none bPosition__buttons">
-                <button className={toggleStornoStyles}
-                    onClick={onClickStorno}>
+                <button className={buttonStyles}
+                    onClick={() => onStorno(Index)}>
                     {Storno ? 'Отменить сторно' : 'Сторно'}
                 </button>
             </div>
@@ -75,7 +77,7 @@ Position.propTypes = {
     /**
      * Коллбэк для кнопки "Сторно"
      */
-    onClickStorno: PropTypes.func.isRequired,
+    onStorno: PropTypes.func,
     /**
      * Флаг НДС (view only)
      * Включён ли НДС в стоимость товара

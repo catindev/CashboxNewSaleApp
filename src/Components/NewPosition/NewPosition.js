@@ -70,7 +70,7 @@ function NewPosition({
                         </select>
                         {Sections.length === 0 && (
                             <small className="form-text text-muted">
-                                <span class="spinner-border spinner-border-sm"></span>
+                                <span className="spinner-border spinner-border-sm"></span>
                                 Loading...
                             </small>
                         )}

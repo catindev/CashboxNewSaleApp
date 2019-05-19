@@ -23,7 +23,7 @@ function Header({ Length }) {
         <h4 className="d-flex justify-content-between align-items-center mb-3">
             <span className="text-muted">Предчек</span>
             <span className="badge badge-primary badge-pill">
-                {Length} {LabelText(Length)}
+                {Length > 0 ? Length : 'Нет'}  {LabelText(Length)}
             </span>
         </h4>
     )

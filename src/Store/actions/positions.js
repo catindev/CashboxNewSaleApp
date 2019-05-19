@@ -13,3 +13,9 @@ export const editPosition = (newData) => ({
     type: EDIT_POSITION, payload: newData
 });
 
+/** Сторнировать позицию */
+export const TOGGLE_POSITION_STORNO = 'TOGGLE_POSITION_STORNO'
+export const toggleStorno = index => ({
+    type: TOGGLE_POSITION_STORNO, index
+});
+

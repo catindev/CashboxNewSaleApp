@@ -9,7 +9,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const store = setupStore({
-    Token: 'BearerTokenString',
+    Token: 'BearerTokenString1',
     Sections: [],
     PositionForm: {
         "Name": "123",

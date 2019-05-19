@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import formatMoney from '../../../Utils/FormatMoney';
 
 function Total({ Total = 0, Cash = 0, NonCash = 0, Change = 0 }) {
+
     return (
         <li className="list-group-item list-group-item-warning">
             <div className="d-flex justify-content-between s-t">
