@@ -7392,6 +7392,11 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+livr@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/livr/-/livr-2.2.5.tgz#2f60427aa30d41de0d8ca806389fcdbfe355df8a"
+  integrity sha512-WTVfPnLE/tr3ODUuWrhHyyoc3V6d3ExGU6M4C1EaEToEO3+WpdC0nEbGJ1srFzstcGVnJcTpKK9q1zK3ElTcLA==
+
 load-json-file@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-2.0.0.tgz#7947e42149af80d696cbf797bcaabcfe1fe29ca8"

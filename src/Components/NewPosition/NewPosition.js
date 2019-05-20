@@ -7,14 +7,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import './NewPosition.css';
 
-const ErrorMessage = ({ List = {} }) => Object.keys(List).length > 0 ?
-    (
-        <div className="NewPosition__alert alert alert-warning" role="alert">
-            <h5 className="alert-heading">Ошибка при добавлении новой позиции</h5>
-            {Object.keys(List).map(field => <p>{List[field]}</p>)}
-        </div>
-    ) : null;
-
 function NewPosition({
     Name, Price = 0, Qty = 1, Discount = 0, Markup = 0, Section,
     Sections = [], Errors = {},
@@ -23,18 +15,16 @@ function NewPosition({
     const change = ({ target: { value, name } }) => OnChange({ [name]: value });
     const submit = e => { e.preventDefault(); OnSubmit(e); };
     const isValid = fieldName => Object.keys(Errors).length > 0 ?
-        fieldName in Errors ? 'is-invalid' : 'is-valid'
-        : false;
+        (fieldName in Errors && 'is-invalid') : false;
 
     return (
         <Fragment>
             <h4 className="mb-3">Добавить позицию</h4>
-            <ErrorMessage List={Errors} />
             <form className="needs-validation" noValidate
                 onSubmit={submit}>
 
                 <div className="form-row pt-2">
-                    <div className="form-group col-md-8">
+                    <div className="form-group col-md-7">
                         <label htmlFor="PositionName">Наименование</label>
                         <input type="text"
                             className={`form-control form-control-lg ${isValid('Name')}`}
@@ -42,7 +32,7 @@ function NewPosition({
                             name="Name" onChange={change} value={Name} />
                     </div>
 
-                    <div className="form-group col-md-2">
+                    <div className="form-group col-md-3">
                         <label htmlFor="PositionPrice">Цена</label>
                         <input type="number"
                             className={`form-control form-control-lg ${isValid('Price')}`}

@@ -1,15 +1,18 @@
-export const fetchItems = state => ({ ...state, Fetching: true });
+export const fetchSessions = state => ({ ...state, Fetching: true });
 
-export const onFetched = (state, action) => ({
+export const onSessionsFetched = (state, action) => ({
     ...state,
     Sections: action.Sections,
     Fetching: false
 });
 
-export const onError = (state, action) => ({
+export const onSessionsError = (state, action) => ({
     ...state,
-    SectionsError: 'Не удалось загрузить справочник',
+    Errors: {
+        ...state.Errors,
+        Section: 'Не удалось загрузить справочник секций'
+    },
     Fetching: false
 })
 
-export default { fetchItems, onFetched, onError }
+export default { fetchSessions, onSessionsFetched, onSessionsError }
