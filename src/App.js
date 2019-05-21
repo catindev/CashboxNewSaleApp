@@ -5,7 +5,7 @@ import './App.css';
 import AppSettings from './Utils/Settings.json';
 
 import {
-  RESET_ERRORS,
+  RESET_POSITION_ERRORS,
   addPosition, editPosition,
   positionFormReset
 } from './Store/actions/positions';
@@ -16,12 +16,14 @@ import Precheck from './Components/Precheck/Precheck';
 import NewPosition from './Components/NewPosition/NewPosition';
 
 
-const ErrorMessage = ({ List = {} }) => Object.keys(List).length > 0 ?
+const SysErrors = ({ List = [] }) => List.length > 0 ?
   (
-    <div className="NewPosition__alert alert alert-danger mb-4"
+    <div className="NewPosition__alert alert alert-danger mb-3"
       role="alert">
-      <h5 className="alert-heading">Ошибка</h5>
-      {Object.keys(List).map((field, i) => <p key={i}>{List[field]}</p>)}
+      <h5 className="alert-heading">Системные ошибки</h5>
+      {List.map((error, i) => <p key={i}>{error}</p>)}
+      <hr />
+      <small>Проверьте соединение с интернетом и обновите страницу. Если проблема повторится, то обратитесь за помощью в тех. поддержку</small >
     </div>
   ) : null;
 
@@ -36,32 +38,32 @@ class App extends Component {
 
   change = newFormData => this.props.dispatch(editPosition(newFormData))
   submit = () => {
-    this.props.dispatch({ type: RESET_ERRORS })
+    this.props.dispatch({ type: RESET_POSITION_ERRORS })
     this.props.dispatch(addPosition(this.props.PositionForm))
   }
   reset = () => this.props.dispatch(positionFormReset())
 
   render() {
     const {
+      SystemErrors,
       Sections,
-      Positions = [],
       PositionForm = {},
-      Errors = {}
+      PositionFormErrors = {}
     } = this.props
 
     return (
       <div className="container pt-4">
+        <SysErrors List={SystemErrors} />
         <h1 className="h2 pt-3 pb-2 mb-5 border-bottom">Новая продажа</h1>
-        <ErrorMessage List={Errors} />
 
         <div className="row">
           <div className="col-md-5 order-md-2 mb-5 ">
-            <Precheck Positions={Positions} />
+            <Precheck />
           </div>
 
           <div className="col-md-7 order-md-1 pr-3">
             <NewPosition
-              Errors={Errors}
+              Errors={PositionFormErrors}
               Sections={Sections}
               {...PositionForm}
               OnChange={this.change}

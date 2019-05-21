@@ -1,5 +1,14 @@
+/** Валидатор формы новой позиции
+ *  Возвращает объект с ошибками в параметрах формы
+ */
+
+function isNormalInteger(value) {
+    const number = Math.floor(Number(value));
+    return number !== Infinity && String(number) === value && number >= 0;
+}
+
 export default function getPositionFormErrors(position) {
-    return (Object.keys(position)).reduce((errors, key) => {
+    return Object.keys(position).reduce((errors, key) => {
         switch (key) {
             case 'Name':
                 if (position[key] === '') {
@@ -8,25 +17,23 @@ export default function getPositionFormErrors(position) {
                 return errors;
 
             case 'Price':
-                if (position[key] === '') errors[key] = 'Цена не должна быть пустой';
-                if (typeof (position[key]) === 'number' && position[key] <= 0) errors[key] = 'Цена не может быть 0 и должна быть положительным числом';
+                if (Number(position.Price) <= 0 || !position.Price) errors.Price = 'Введите цену за единицу товара';
                 return errors;
 
             case 'Qty':
-                if (position[key] === '' || (typeof (position[key]) === 'number' && position[key] <= 0)) errors[key] = 'Введите количество товара';
-                if (typeof (position[key]) === 'number' && position[key] <= 0) errors[key] = 'Количество не может быть 0 и должно быть положительным числом';
+                if (Number(position.Qty) <= 0 || !position.Qty) errors.Qty = 'Введите количество товара';
                 return errors;
 
             case 'Markup':
-                if (position[key] !== '' && position[key] > 0) {
-                    if (typeof (position[key]) === 'number' && position[key] <= 0) errors[key] = 'Наценка должна быть положительным числом';
+                if (position.Markup && Number(position.Markup) !== 0) {
+                    if (Number(position.Markup) <= 0) errors.Markup = 'Введите наценку в процентах';
                 }
                 return errors;
 
             case 'Discount':
-                if (position[key] !== '' && position[key] > 0) {
-                    if (typeof (position[key]) === 'number' && position[key] <= 0) errors[key] = 'Скидка должна быть положительным числом';
-                    if (position[key] >= 100) errors[key] = 'Скидка не должна быть больше 100%';
+                if (position.Discount && Number(position.Discount) !== 0) {
+                    if (Number(position.Discount) <= 0) errors.Discount = 'Введите скидку в процентах';
+                    if (Number(position.Discount) >= 100) errors.Discount = 'Скидка не может быть 100% и более';
                 }
                 return errors;
 

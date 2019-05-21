@@ -3,3 +3,7 @@
     margin-block-start: .15rem !important;
     margin-block-end: .15rem !important;
 }
+
+.NewPosition__alert hr {
+    margin: 10px 0 !important;
+}

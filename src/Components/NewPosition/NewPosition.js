@@ -7,12 +7,27 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import './NewPosition.css';
 
+import InputNumber from './InputNumber';
+
+const ErrorMessage = ({ List = {} }) => Object.keys(List).length > 0 ?
+    (
+        <div className="NewPosition__alert alert alert-warning mb-4 shadow"
+            role="alert">
+            <h5 className="alert-heading">Ошибка при добавлении позиции</h5>
+            {Object.keys(List).map((field, i) => <p key={i}>{List[field]}</p>)}
+            <hr />
+            <small>Исправьте ошибки и попробуйте добавить позицию ещё раз</small>
+        </div>
+    ) : null;
+
 function NewPosition({
     Name, Price = 0, Qty = 1, Discount = 0, Markup = 0, Section,
     Sections = [], Errors = {},
     OnChange, OnSubmit, OnReset
 }) {
-    const change = ({ target: { value, name } }) => OnChange({ [name]: value });
+    const change = ({ target: { value, name, type } }) => {
+        return OnChange({ [name]: type === 'number' && value !== '0' ? parseInt(value, 10) : value });
+    }
     const submit = e => { e.preventDefault(); OnSubmit(e); };
     const isValid = fieldName => Object.keys(Errors).length > 0 ?
         (fieldName in Errors && 'is-invalid') : false;
@@ -20,6 +35,8 @@ function NewPosition({
     return (
         <Fragment>
             <h4 className="mb-3">Добавить позицию</h4>
+            <ErrorMessage List={Errors} />
+
             <form className="needs-validation" noValidate
                 onSubmit={submit}>
 
@@ -34,7 +51,7 @@ function NewPosition({
 
                     <div className="form-group col-md-3">
                         <label htmlFor="PositionPrice">Цена</label>
-                        <input type="number"
+                        <InputNumber
                             className={`form-control form-control-lg ${isValid('Price')}`}
                             id="PositionPrice" placeholder="0"
                             name="Price" onChange={change} value={Price} />
@@ -42,7 +59,7 @@ function NewPosition({
 
                     <div className="form-group col-md-2">
                         <label htmlFor="PositionQty">Кол-во</label>
-                        <input type="number"
+                        <InputNumber
                             className={`form-control form-control-lg ${isValid('Qty')}`}
                             id="PositionQty"
                             name="Qty" onChange={change} value={Qty} />
@@ -60,15 +77,14 @@ function NewPosition({
                         </select>
                         {Sections.length === 0 && (
                             <small className="form-text text-muted">
-                                <span className="spinner-border spinner-border-sm"></span>
-                                Loading...
+                                Загружаем справочник...
                             </small>
                         )}
                     </div>
 
                     <div className="form-group col-md-2">
                         <label htmlFor="PositionMarkup">% наценка</label>
-                        <input type="number"
+                        <InputNumber
                             className={`form-control ${isValid('Markup')}`}
                             id="PositionMarkup"
                             name="Markup" onChange={change} value={Markup} />
@@ -76,7 +92,7 @@ function NewPosition({
 
                     <div className="form-group col-md-2">
                         <label htmlFor="PositionDiscount">% cкидка</label>
-                        <input type="number"
+                        <InputNumber
                             className={`form-control ${isValid('Discount')}`}
                             id="PositionDiscount"
                             name="Discount" onChange={change} value={Discount} />

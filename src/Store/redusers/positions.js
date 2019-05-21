@@ -1,61 +1,80 @@
-export const resetErrors = state => ({
-    ...state, Errors: {}
-});
+import calculatePositionCost from '../../Utils/CalculatePositionCost';
+import isDecimal from '../../Utils/IsDecimal';
 
-export const add = (state, action) => {
-    const { Name, Id } = state.Sections[action.Position.Section];
-    const newPosition = {
-        ...action.Position, Price: parseInt(action.Position.Price),
-        SectionName: Name, IdSection: Id
+const { stringify } = JSON;
 
-    };
-    return {
-        ...state,
-        Positions: [
-            ...state.Positions,
-            newPosition
-        ],
-        PositionForm: {
-            "Name": "",
-            "Price": 0,
-            "Markup": 0,
-            "Discount": 0,
-            "Qty": 1,
-            "Section": 0
-        }
-    }
+const parseDigit = digit => {
+    console.log(digit, typeof digit)
+    return Math.abs(isDecimal(digit) ?
+        parseFloat(digit) : parseInt(digit));
 };
 
-export const edit = (state, action) => ({
+const calculateTotal = positions => positions.reduce(
+    (total, { Storno, Cost }) => Storno ? total : total + Cost, 0
+);
+
+// Шаблон для пустой формы новой позиции
+const PositionForm = {
+    "Name": "",
+    "Price": "",
+    "Markup": 0,
+    "Discount": 0,
+    "Qty": 1,
+    "Section": 0
+};
+
+
+export const resetPositionFormErrors = state => ({
+    ...state, PositionFormErrors: {}
+});
+
+export const addPosition = (state, action) => {
+    const { Name, Id, Nds } = state.Sections[action.Position.Section];
+    const newPosition = {
+        ...action.Position, SectionName: Name, IdSection: Id,
+        // TODO: 🙈 убрать, когда из API будет приходить bool
+        Nds: Nds ? true : false
+    };
+    newPosition.Cost = calculatePositionCost(newPosition);
+    const Positions = [...state.Positions, newPosition];
+
+    const Total = calculateTotal(Positions);
+
+    return { ...state, PositionForm, Positions, Total };
+};
+
+export const editPositionForm = (state, action) => ({
     ...state, PositionForm: {
         ...state.PositionForm, ...action.payload
     }
 });
 
-export const onAddError = (state, action) => ({
-    ...state, Errors: {
-        ...state.Errors, ...action.errors
+export const onAddPositionError = (state, action) => ({
+    ...state, PositionFormErrors: {
+        ...state.PositionFormErrors, ...action.errors
     }
 });
 
-export const reset = state => ({
-    ...state, PositionForm: {
-        "Name": "",
-        "Price": 0,
-        "Markup": 0,
-        "Discount": 0,
-        "Qty": 1,
-        "Section": 0
-    }
+export const resetNewPositionForm = state => ({
+    ...state, PositionForm, PositionFormErrors: {}
 });
 
-export const storno = (state, action) => {
+export const stornoPosition = (state, action) => {
+    const { index } = action;
+
     const Positions = [...state.Positions];
-    Positions[action.index] = {
-        ...Positions[action.index],
-        Storno: !Positions[action.index].Storno
+    Positions[index] = {
+        ...Positions[index],
+        Storno: !Positions[index].Storno
     };
-    return { ...state, Positions }
+
+    const Total = calculateTotal(Positions);
+
+    return { ...state, Positions, Total };
 }
 
-export default { add, edit, reset, storno, onAddError, resetErrors }
+export default {
+    addPosition, editPositionForm, onAddPositionError,
+    resetNewPositionForm, stornoPosition,
+    resetPositionFormErrors
+}

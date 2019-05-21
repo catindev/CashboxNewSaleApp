@@ -13,30 +13,46 @@ import ReadCookieByName from './Utils/ReadCookieByName';
 const root = document.getElementById('NewSaleApp');
 
 const store = setupStore({
+    // Данные для запросов
     Token: ReadCookieByName('tokken') || false,
     IdKkm: root.dataset.idKkm || false,
+
+    SystemErrors: [],
     Errors: {},
 
+    // Форма добавления новой позиции
     Sections: [],
+    Domains: [],
     PositionForm: {
         "Name": "",
-        "Price": 0,
+        "Price": "",
         "Markup": 0,
         "Discount": 0,
         "Qty": 1,
         "Section": 0
     },
+    PositionFormErrors: {},
 
-    Domains: [],
+    IdDomain: false,    // Вид деятельности
 
-    Positions: []
+    /** Предчек */
+    Positions: [],      // Список товарных позиций
+    Total: 0,           // Сумма к оплате     
+    Cash: 0,            // Внесено наличными
+    NonCash: 0,         // Внесено безналом     
 });
 
 render(
     store.getState().Token ?
+        // false ?
         (<Provider store={store}>
             <App />
-        </Provider>) : (<h1>401:Unauthorized</h1>)
+        </Provider>)
+        : (<div className="alert alert-danger m-4"
+            role="alert">
+            <h4 className="alert-heading">Системная ошибка</h4>
+            401: Не авторизованный пользователь
+        </div>)
     , root);
 
 // If you want your app to work offline and load faster, you can change

@@ -1,17 +1,15 @@
 export const fetchDomains = state => ({ ...state, Fetching: true });
 
-export const onDomainsFetched = (state, action) => ({
-    ...state,
-    Domains: action.Domains,
-    Fetching: false
+export const onDomainsFetched = (state, { Domains }) => ({
+    ...state, Domains, Fetching: false
 });
 
 export const onDomainsError = (state, action) => ({
     ...state,
-    Errors: {
+    SystemErrors: [
         ...state.SystemErrors,
-        Domain: 'Не удалось загрузить справочник видов деятельности'
-    },
+        'Ошибка при загрузке справочника видов деятельности'
+    ],
     Fetching: false
 })
 

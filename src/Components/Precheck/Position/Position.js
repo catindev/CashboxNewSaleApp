@@ -6,7 +6,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Helpers from './Helpers';
 import './Position.css';
-import CalculatePositionCost from '../../../Utils/CalculatePositionCost';
 import FormatMoney from '../../../Utils/FormatMoney';
 
 
@@ -14,9 +13,6 @@ function Position({
     Index, Name, SectionName, Nds = false, Qty = 1, Markup = 0, Discount = 0,
     Storno = false, Price, Cost, onStorno = () => { }
 }) {
-    // 🙈 Monkey patch. Rem0ve later
-    const Total = Cost ? Cost : CalculatePositionCost({ Price, Qty, Markup, Discount });
-
     const buttonStyles = Storno ?
         'btn btn-outline-secondary btn-sm'
         :
@@ -30,17 +26,19 @@ function Position({
                         {Name} <Helpers.Qty value={Qty} />
                     </div>
                     <small className="text-muted">Цена {Price}</small>
-                    <Helpers.Discount value={Discount} />
-                    <Helpers.Markup value={Markup} />
+                    <Helpers.Discount value={Discount} Storno={Storno} />
+                    <Helpers.Markup value={Markup} Storno={Storno} />
                 </div>
-                <strong>{FormatMoney(Total)}</strong>
+                <strong className={Storno ? 'storno text-muted' : ''}>
+                    {FormatMoney(Cost)}
+                </strong>
             </div>
 
             <div className="pb-1">
                 <small className="text-muted">
                     Секция "{SectionName}"
                 </small>
-                {Nds === true && <Helpers.Nds Price={Price} Qty={Qty} />}
+                {Nds === true && <Helpers.Nds Price={Price} Qty={Qty} Storno={Storno} />}
             </div>
 
             <div className="pt-2 d-none bPosition__buttons">

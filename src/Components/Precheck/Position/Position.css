@@ -18,3 +18,7 @@
 .s-d {
   opacity: .25;
 }
+
+.storno {
+  text-decoration: line-through;
+}

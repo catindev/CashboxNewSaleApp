@@ -20,11 +20,11 @@ export default {
     * Скидка на товар 
     * Выводится в % или не выводится если !value
     */
-    Discount: ({ value }) => value ?
+    Discount: ({ value, Storno = false }) => value ?
         value > 0 && (
             <Fragment>
                 <span className="text-muted s-d"> • </span>
-                <small className="badge badge-pill badge-success s-i">
+                <small className={`badge badge-pill badge-${Storno ? 'secondary' : 'success'} s-i`}>
                     Скидка {value}%
                 </small>
             </Fragment>
@@ -33,11 +33,11 @@ export default {
     * Наценка на товар 
     * Выводится в % или не выводится если !value
     */
-    Markup: ({ value }) => value ?
+    Markup: ({ value, Storno = false }) => value ?
         value > 0 && (
             <Fragment>
                 <span className="text-muted s-d"> • </span>
-                <small className="badge badge-pill badge-warning s-i">
+                <small className={`badge badge-pill badge-${Storno ? 'secondary' : 'warning'} s-i`}>
                     Наценка {value}%
                 </small>
             </Fragment>
@@ -46,13 +46,14 @@ export default {
     * НДС от стоимости товарной позиции 
     * Выводится в тенге
     */
-    Nds: ({ Price, Qty }) => {
+    Nds: ({ Price, Qty, Storno = false }) => {
         const NdsValue = ((Price * 12 / 112) * Qty).toFixed(2);
+        const type = Storno ? 'secondary' : 'info';
         return (
             <Fragment>
                 <span className="text-muted s-d"> • </span>
-                <small className="badge badge-pill badge-info s-i">
-                    НДС {NdsValue}₸
+                <small className={`badge badge-pill badge-${type} s-i`}>
+                    НДС {NdsValue}
                 </small>
             </Fragment>
         )

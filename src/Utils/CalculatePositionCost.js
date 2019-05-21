@@ -12,11 +12,14 @@
  * Если стоимость float, то округляем до сотых
  */
 
+import isDecimal from './IsDecimal';
+
 export default function CalculatePositionCost({
     Price, Qty = 1, Markup = 0, Discount = 0
 }) {
+    console.log('new position', Price, Qty, Markup, Discount)
     const Cost = (Price + (Markup > 0 ? (Price * Markup) / 100 : 0) -
         (Discount > 0 ? (Price * Discount) / 100 : 0)) * Qty;
 
-    return Number(Cost) === Cost && Cost % 1 !== 0 ? Cost.toFixed(2) : Cost;
+    return isDecimal(Cost) ? parseFloat(Cost.toFixed(2)) : Cost;
 }

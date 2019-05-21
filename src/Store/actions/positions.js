@@ -1,13 +1,13 @@
 import getPositionFormErrors from './getPositionFormErrors';
 
-export const RESET_ERRORS = 'RESET_ERRORS';
+export const RESET_POSITION_ERRORS = 'RESET_POSITION_ERRORS';
 
 /** Проверить рассчитать и добавить позицию в стейт */
 export const ADD_POSITION = 'ADD_POSITION';
 export const ADD_POSITION_ERROR = 'ADD_POSITION_ERROR';
 export const addPosition = Position => {
     const errors = getPositionFormErrors(Position);
-    return (Object.keys(errors)).length > 0 ?
+    return Object.keys(errors).length > 0 ?
         { type: ADD_POSITION_ERROR, errors }
         :
         { type: ADD_POSITION, Position }

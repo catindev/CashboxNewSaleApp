@@ -1,12 +1,16 @@
 import {
-    RESET_ERRORS,
+    RESET_POSITION_ERRORS,
     EDIT_POSITION,
     ADD_POSITION,
     ADD_POSITION_ERROR,
     TOGGLE_POSITION_STORNO,
     POSITION_FORM_RESET
 } from '../actions/positions';
-import { add, edit, reset, onAddError, storno, resetErrors } from './positions';
+import {
+    addPosition, editPositionForm, onAddPositionError,
+    resetNewPositionForm, stornoPosition,
+    resetPositionFormErrors
+} from './positions';
 
 import {
     FETCH_SECTIONS,
@@ -24,8 +28,6 @@ import { fetchDomains, onDomainsFetched, onDomainsError } from './domains';
 
 export default function mainReducer(state = {}, action) {
     switch (action.type) {
-        case RESET_ERRORS:
-            return resetErrors(state);
 
         // Sections reducers
         case FETCH_SECTIONS:
@@ -43,17 +45,19 @@ export default function mainReducer(state = {}, action) {
         case DOMAINS_ERROR:
             return onDomainsError(state, action);
 
-        // Positions reducers
+        // Преобразователи для работы с позициямиы
+        case RESET_POSITION_ERRORS:
+            return resetPositionFormErrors(state);
         case ADD_POSITION:
-            return add(state, action);
+            return addPosition(state, action);
         case EDIT_POSITION:
-            return edit(state, action);
+            return editPositionForm(state, action);
         case ADD_POSITION_ERROR:
-            return onAddError(state, action);
-        case TOGGLE_POSITION_STORNO:
-            return storno(state, action);
+            return onAddPositionError(state, action);
         case POSITION_FORM_RESET:
-            return reset(state)
+            return resetNewPositionForm(state);
+        case TOGGLE_POSITION_STORNO:
+            return stornoPosition(state, action);
 
         default:
             return state;
