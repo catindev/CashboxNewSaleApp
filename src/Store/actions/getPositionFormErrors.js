@@ -2,11 +2,6 @@
  *  Возвращает объект с ошибками в параметрах формы
  */
 
-function isNormalInteger(value) {
-    const number = Math.floor(Number(value));
-    return number !== Infinity && String(number) === value && number >= 0;
-}
-
 export default function getPositionFormErrors(position) {
     return Object.keys(position).reduce((errors, key) => {
         switch (key) {

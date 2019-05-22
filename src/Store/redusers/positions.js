@@ -1,13 +1,4 @@
 import calculatePositionCost from '../../Utils/CalculatePositionCost';
-import isDecimal from '../../Utils/IsDecimal';
-
-const { stringify } = JSON;
-
-const parseDigit = digit => {
-    console.log(digit, typeof digit)
-    return Math.abs(isDecimal(digit) ?
-        parseFloat(digit) : parseInt(digit));
-};
 
 const calculateTotal = positions => positions.reduce(
     (total, { Storno, Cost }) => Storno ? total : total + Cost, 0
@@ -23,20 +14,27 @@ const PositionForm = {
     "Section": 0
 };
 
-
 export const resetPositionFormErrors = state => ({
     ...state, PositionFormErrors: {}
 });
 
 export const addPosition = (state, action) => {
+    if (state.SystemErrors.length > 0) return state;
+
     const { Name, Id, Nds } = state.Sections[action.Position.Section];
+
     const newPosition = {
-        ...action.Position, SectionName: Name, IdSection: Id,
-        // TODO: 🙈 убрать, когда из API будет приходить bool
-        Nds: Nds ? true : false
+        ...action.Position,
+        SectionName: Name, IdSection: Id, Nds
     };
-    newPosition.Cost = calculatePositionCost(newPosition);
-    const Positions = [...state.Positions, newPosition];
+
+    const Cost = calculatePositionCost(newPosition);
+    const NdsValue = ((Cost / ((Nds / 100) + 1)) * (Nds / 100)).toFixed(2);
+
+    const Positions = [
+        ...state.Positions,
+        { ...newPosition, Cost, NdsValue }
+    ];
 
     const Total = calculateTotal(Positions);
 

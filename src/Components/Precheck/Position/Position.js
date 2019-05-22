@@ -10,7 +10,7 @@ import FormatMoney from '../../../Utils/FormatMoney';
 
 
 function Position({
-    Index, Name, SectionName, Nds = false, Qty = 1, Markup = 0, Discount = 0,
+    Index, Name, SectionName, Nds, NdsValue, Qty = 1, Markup = 0, Discount = 0,
     Storno = false, Price, Cost, onStorno = () => { }
 }) {
     const buttonStyles = Storno ?
@@ -38,7 +38,7 @@ function Position({
                 <small className="text-muted">
                     Секция "{SectionName}"
                 </small>
-                {Nds === true && <Helpers.Nds Price={Price} Qty={Qty} Storno={Storno} />}
+                {Nds > 0 && <Helpers.Nds {...{ NdsValue, Storno }} />}
             </div>
 
             <div className="pt-2 d-none bPosition__buttons">
@@ -80,7 +80,7 @@ Position.propTypes = {
      * Флаг НДС (view only)
      * Включён ли НДС в стоимость товара
      */
-    Nds: PropTypes.bool,
+    Nds: PropTypes.number,
     /**
      * % наценки
      */

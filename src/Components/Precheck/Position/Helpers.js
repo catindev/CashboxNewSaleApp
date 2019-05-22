@@ -46,8 +46,8 @@ export default {
     * НДС от стоимости товарной позиции 
     * Выводится в тенге
     */
-    Nds: ({ Price, Qty, Storno = false }) => {
-        const NdsValue = ((Price * 12 / 112) * Qty).toFixed(2);
+
+    Nds: ({ NdsValue, Storno = false }) => {
         const type = Storno ? 'secondary' : 'info';
         return (
             <Fragment>
