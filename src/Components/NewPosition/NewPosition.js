@@ -7,7 +7,8 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import './NewPosition.css';
 
-import InputNumber from './InputNumber';
+import InputNumber from '../Common/InputNumber/InputNumber';
+import Directory from '../Common/Directory/Directory';
 
 const ErrorMessage = ({ List = {} }) => Object.keys(List).length > 0 ?
     (
@@ -68,18 +69,20 @@ function NewPosition({
 
                 <div className="form-row">
                     <div className="form-group col-md-8">
-                        <label htmlFor="PositionSections">Секция</label>
+                        <Directory Id="Section" Label="Секция" Items={Sections} Selected={Section} OnChange={change} />
+
+                        {/* <label htmlFor="PositionSections">Секция</label>
                         <select name="Section" id="PositionSections"
                             className={`form-control ${isValid('Section')}`}
                             onChange={change} value={Section}>
                             {Sections.length > 0 && Sections.map(({ Id, Name }, index) =>
-                                <option key={index} value={Id}>{Name}</option>)}
+                                <option key={index} value={index}>{Name}</option>)}
                         </select>
                         {Sections.length === 0 && (
                             <small className="form-text text-muted">
                                 Загружаем справочник...
                             </small>
-                        )}
+                        )} */}
                     </div>
 
                     <div className="form-group col-md-2">
