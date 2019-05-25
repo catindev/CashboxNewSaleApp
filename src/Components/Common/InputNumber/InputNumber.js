@@ -1,16 +1,23 @@
 import React from 'react';
 
 class InputNumber extends React.Component {
-    onKeyDown = ({ keyCode, preventDefault }) =>
-        (keyCode === '38' || keyCode === '40') && preventDefault();
+    handleChange = e => {
+        if (e.target.value === '') {
+            e.target.value = 0;
+            return this.props.OnChange(e)
+        }
 
+        if (/^\d+$/.test(e.target.value)) {
+            e.target.value = parseInt(e.target.value)
+            this.props.OnChange(e)
+        } else e.preventDefault();
+    }
     render() {
-        let inputProps = { ...this.props };
-        delete inputProps.onlydigits;
+        const { className, id, name, value } = this.props;
         return (
             <input type="number"
-                pattern={this.props.onlydigits && navigator.userAgent.match(/iPhone|iPad|iPod/i) ? `[0-9]*` : ''}
-                onKeyDown={this.onKeyDown} {...inputProps} />
+                onChange={this.handleChange}
+                {...{ className, id, name, value }} step="any" />
         );
     }
 }

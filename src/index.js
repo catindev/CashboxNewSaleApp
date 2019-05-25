@@ -2,30 +2,34 @@ import React from 'react';
 import { render } from 'react-dom';
 
 import { Provider } from 'react-redux'
-import setupStore from './Store/index'
+import setupStore from './Store'
 
 import './index.css';
-import App from './App';
+import App from './App/App';
 import * as serviceWorker from './serviceWorker';
 
 import ReadCookieByName from './Utils/ReadCookieByName';
 
 const root = document.getElementById('NewSaleApp');
 
+/** STATE DESIGN QS: 
+ *  - Какие данные на входе и какие данные на выходе?
+ *  - Какие ещё могут быть альтернативные сценарии (варианты стейта на финише)? 
+ *  - Что будет причиной для каждого сценария?
+*/
 const store = setupStore({
     // Данные для запросов
     Token: ReadCookieByName('tokken') || false,
     IdKkm: root.dataset.idKkm || false,
-
+    Balance: 0,
     SystemErrors: [],
-    Errors: {},
 
     // Форма добавления новой позиции
     Sections: [],
     Domains: [],
     PositionForm: {
         "Name": "",
-        "Price": "",
+        "Price": 0,
         "Markup": 0,
         "Discount": 0,
         "Qty": 1,
@@ -33,13 +37,18 @@ const store = setupStore({
     },
     PositionFormErrors: {},
 
+    Domain: 0,
     IdDomain: false,    // Вид деятельности
 
     /** Предчек */
     Positions: [],      // Список товарных позиций
     Total: 0,           // Сумма к оплате     
     Cash: 0,            // Внесено наличными
-    NonCash: 0,         // Внесено безналом     
+    NonCash: 0,         // Внесено безналом   
+    PrecheckErrors: {},
+
+    //Чек
+    Receipt: false
 });
 
 render(

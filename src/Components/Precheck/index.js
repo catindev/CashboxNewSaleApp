@@ -6,7 +6,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { toggleStorno } from '../../Store/actions/positions';
+import { toggleStorno } from './Precheck.actions';
 
 import Position from "./Position/Position";
 import Totals from "./Total/Total";
@@ -57,9 +57,9 @@ class Precheck extends Component {
                         <Position key={i} Index={i} {...p}
                             onStorno={this.onStorno} />)}
 
-                    {hasPositions && <Totals
+                    <Totals
                         Total={Total} Cash={Cash}
-                        NonCash={NonCash} Change={0} />}
+                        NonCash={NonCash} Change={0} />
                 </ul>
             </Fragment>
         )

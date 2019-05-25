@@ -1,6 +1,6 @@
 /**
  * Компонент с формой для добавления новой позиции в предчек
- * Состояние формы пробрасывается снаружи и отдаётся при изменении полей
+ * Без состояния
  */
 
 import React, { Fragment } from 'react';
@@ -26,9 +26,7 @@ function NewPosition({
     Sections = [], Errors = {},
     OnChange, OnSubmit, OnReset
 }) {
-    const change = ({ target: { value, name, type } }) => {
-        return OnChange({ [name]: type === 'number' && value !== '0' ? parseInt(value, 10) : value });
-    }
+    const change = ({ target: { value, name } }) => OnChange({ value, name });
     const submit = e => { e.preventDefault(); OnSubmit(e); };
     const isValid = fieldName => Object.keys(Errors).length > 0 ?
         (fieldName in Errors && 'is-invalid') : false;
@@ -55,7 +53,7 @@ function NewPosition({
                         <InputNumber
                             className={`form-control form-control-lg ${isValid('Price')}`}
                             id="PositionPrice" placeholder="0"
-                            name="Price" onChange={change} value={Price} />
+                            name="Price" OnChange={change} value={Price} />
                     </div>
 
                     <div className="form-group col-md-2">
@@ -63,26 +61,15 @@ function NewPosition({
                         <InputNumber
                             className={`form-control form-control-lg ${isValid('Qty')}`}
                             id="PositionQty"
-                            name="Qty" onChange={change} value={Qty} />
+                            name="Qty" OnChange={change} value={Qty} />
                     </div>
                 </div>
 
                 <div className="form-row">
                     <div className="form-group col-md-8">
-                        <Directory Id="Section" Label="Секция" Items={Sections} Selected={Section} OnChange={change} />
-
-                        {/* <label htmlFor="PositionSections">Секция</label>
-                        <select name="Section" id="PositionSections"
-                            className={`form-control ${isValid('Section')}`}
-                            onChange={change} value={Section}>
-                            {Sections.length > 0 && Sections.map(({ Id, Name }, index) =>
-                                <option key={index} value={index}>{Name}</option>)}
-                        </select>
-                        {Sections.length === 0 && (
-                            <small className="form-text text-muted">
-                                Загружаем справочник...
-                            </small>
-                        )} */}
+                        <Directory Id="Section" Label="Секция"
+                            Items={Sections} Selected={Section}
+                            OnChange={change} />
                     </div>
 
                     <div className="form-group col-md-2">
@@ -90,7 +77,7 @@ function NewPosition({
                         <InputNumber
                             className={`form-control ${isValid('Markup')}`}
                             id="PositionMarkup"
-                            name="Markup" onChange={change} value={Markup} />
+                            name="Markup" OnChange={change} value={Markup} />
                     </div>
 
                     <div className="form-group col-md-2">
@@ -98,7 +85,7 @@ function NewPosition({
                         <InputNumber
                             className={`form-control ${isValid('Discount')}`}
                             id="PositionDiscount"
-                            name="Discount" onChange={change} value={Discount} />
+                            name="Discount" OnChange={change} value={Discount} />
                     </div>
                 </div>
 

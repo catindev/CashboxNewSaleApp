@@ -1,6 +1,7 @@
-export const FETCH_DOMAINS = 'FETCH_DOMAINS';
-export const DOMAINS_FETCHED = 'DOMAINS_FETCHED';
-export const DOMAINS_ERROR = 'DOMAINS_ERROR';
+export const FETCH_DOMAINS = 'Приложение запрашивает справочник видов деятельности';
+export const DOMAINS_FETCHED = 'Справочник видов деятельности получен';
+export const DOMAINS_ERROR = 'Ошибка загрузки справочника видов деятельности';
+export const CHANGE_DOMAIN = 'Кассир изменил вид деятельности';
 
 const onDomainsSuccess = Domains => ({
     type: DOMAINS_FETCHED, Domains
@@ -8,9 +9,9 @@ const onDomainsSuccess = Domains => ({
 const onDomainsError = error => ({
     type: DOMAINS_ERROR, error
 });
-
-
-
+export const onDomainChange = Domain => ({
+    type: CHANGE_DOMAIN, Domain
+});
 export const fetchDomains = ({ IdKkm, Token, API_URL }) => async dispatch => {
     dispatch({ type: FETCH_DOMAINS });
     try {
