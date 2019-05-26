@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './App.css';
 
 import { API_URL } from '../Utils/Settings.json';
 
@@ -75,7 +74,7 @@ class App extends Component {
             <CashForm />
 
             <div className="form-group border-top mt-4 pt-4 pb-3">
-              <Alert Title="Ошибки оформления продажи" List={PrecheckErrors}>
+              <Alert Title="Ошибки оформления продажи" Type="warning" List={PrecheckErrors}>
                 Исправьте ошибки и попробуйте оформить продажу ещё раз
               </Alert>
 

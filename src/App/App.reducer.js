@@ -75,13 +75,14 @@ export default function appReducers(state = {}, action) {
 
         case PRECHECK_ERRORS:
             const { PrecheckErrors } = action;
-            return { ...state, PrecheckErrors };
+            return { ...state, PrecheckErrors, PrecheckSaved: false };
 
 
         case PRECHECK_SAVE_ERRORS:
             return {
                 ...state, PrecheckErrors: [action.error],
-                PrecheckSaving: false
+                PrecheckSaving: false,
+                PrecheckSaved: false
             };
 
         case PRECHECK_SAVED:
