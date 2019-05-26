@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import {
+    ADD_POSITION_BUTTON,
     RESET_POSITION_ERRORS,
-    validatePositionForm,
+    addPosition,
     editPosition,
     positionFormReset
 } from './NewPosition.actions';
@@ -24,8 +25,9 @@ class NewPositionContainer extends Component {
     )
 
     submit = () => {
-        this.props.dispatch({ type: RESET_POSITION_ERRORS })
-        this.props.dispatch(validatePositionForm(this.props.PositionForm));
+        this.props.dispatch({ type: ADD_POSITION_BUTTON })
+        this.props.dispatch({ type: RESET_POSITION_ERRORS });
+        this.props.dispatch(addPosition());
     }
 
     reset = () => this.props.dispatch(positionFormReset())

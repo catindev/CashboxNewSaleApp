@@ -1,20 +1,14 @@
 import {
     RESET_POSITION_ERRORS,
     EDIT_POSITION_FORM,
-    ADD_POSITION,
+    CALCULATE_AND_ADD_POSITION,
     ADD_POSITION_ERROR,
     POSITION_FORM_RESET
 } from './NewPosition.actions';
+import initial from '../../Store/initial';
 
 // Шаблон для пустой формы новой позиции
-const PositionForm = {
-    "Name": "",
-    "Price": 0,
-    "Markup": 0,
-    "Discount": 0,
-    "Qty": 1,
-    "Section": 0
-};
+const PositionForm = initial.PositionForm;
 
 export default function positionsReducer(state = {}, action) {
     switch (action.type) {
@@ -22,7 +16,7 @@ export default function positionsReducer(state = {}, action) {
         case RESET_POSITION_ERRORS:
             return { ...state, PositionFormErrors: {} };
 
-        case ADD_POSITION:
+        case CALCULATE_AND_ADD_POSITION:
             if (state.SystemErrors.length > 0 || state.Fetching) return state;
             const Positions = [...state.Positions, action.Position];
             return { ...state, PositionForm, Positions, Total: action.Total };

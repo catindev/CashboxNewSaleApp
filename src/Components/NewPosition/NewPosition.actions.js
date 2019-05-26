@@ -1,32 +1,37 @@
 import getPositionFormErrors from './getPositionFormErrors';
 import calculatePositionCost from '../../Utils/CalculatePositionCost';
 
+export const ADD_POSITION_BUTTON = 'Кассир добавляет позицию в предчек';
 export const RESET_POSITION_ERRORS = 'Приложение сбрасывает ошибки на форме новой позиции';
 
 /** Проверить рассчитать и добавить позицию в стейт */
-export const ADD_POSITION = 'Кассир добавил позицию в предчек';
+export const CALCULATE_AND_ADD_POSITION = 'Приложение проверило, рассчитало и добавило новую позицию в предчек';
 export const ADD_POSITION_ERROR = 'Найдены ошибки при добавлении позиции';
 
-export const validatePositionForm = Position => {
-    const errors = getPositionFormErrors(Position);
-    return Object.keys(errors).length > 0 ?
-        { type: ADD_POSITION_ERROR, errors }
-        :
-        calculateAndAddPosition(Position);
-};
+export const addPosition = () => (dispatch, getState) => {
+    const { PositionForm, Total, Sections } = getState();
 
-export const calculateAndAddPosition = Position => (dispatch, getState) => {
-    const { Name, Id, Nds } = getState().Sections[Position.Section];
+    const errors = getPositionFormErrors(PositionForm);
+    if (Object.keys(errors).length > 0) return dispatch({
+        type: ADD_POSITION_ERROR, errors
+    });
 
-    const newPosition = { ...Position, SectionName: Name, IdSection: Id, Nds };
+    const { Name, Id, Nds } = Sections[PositionForm.Section];
 
-    const Cost = calculatePositionCost(newPosition);
+    const Cost = calculatePositionCost(PositionForm);
     const NdsValue = ((Cost / ((Nds / 100) + 1)) * (Nds / 100)).toFixed(2);
+    const newTotal = Total + Cost;
+    const Position = {
+        ...PositionForm,
+        SectionName: Name, IdSection: Id,
+        Nds, NdsValue,
+        Cost
+    };
 
     dispatch({
-        type: ADD_POSITION,
-        Position: { ...newPosition, Cost, NdsValue },
-        Total: getState().Total += Cost
+        type: CALCULATE_AND_ADD_POSITION,
+        Position,
+        Total: newTotal
     });
 };
 
