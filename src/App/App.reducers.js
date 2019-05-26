@@ -35,7 +35,7 @@ export default function appReducers(state = {}, action) {
 
         case DOMAINS_FETCHED:
             const { Domains } = action;
-            return { ...state, Domains, Fetching: false };
+            return { ...state, Domains, Fetching: false, IdDomain: Domains[0].Id };
 
         case DOMAINS_ERROR:
             return {
@@ -50,7 +50,7 @@ export default function appReducers(state = {}, action) {
             const { Domain } = action;
             return {
                 ...state, Domain,
-                IdDomain: state.Domains[Domain].Name
+                IdDomain: state.Domains[Domain].Id
             }
 
         default:

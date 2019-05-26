@@ -21,7 +21,10 @@ function getValue({ value, name }) {
 class NewPositionContainer extends Component {
 
     change = ({ value, name }) => this.props.dispatch(
-        editPosition({ [name]: getValue({ value, name }) })
+        editPosition({
+            value: getValue({ value, name }),
+            name
+        })
     )
 
     submit = () => {

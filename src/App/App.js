@@ -26,6 +26,16 @@ const SysErrors = ({ List = [] }) => List.length > 0 ?
     </div>
   ) : null;
 
+const DomainTitles = {
+  "DOMAIN_TRADING": "Торговля",
+  "DOMAIN_SERVICES": "Услуги",
+  "DOMAIN_GASOIL": "ГСМ",
+  "DOMAIN_HOTELS": "Отели",
+  "DOMAIN_TAXI": "Такси",
+  "DOMAIN_PARKING": "Парковка"
+};
+
+
 class App extends Component {
 
   componentDidMount() {
@@ -41,6 +51,10 @@ class App extends Component {
 
   render() {
     const { SystemErrors, Domains, Domain } = this.props;
+    const DomainsWithTitles = Domains.map(
+      ({ Id, Name }) => ({ Id, Name: DomainTitles[Name] })
+    );
+
     return (
       <div className="container pt-4 pb-5">
 
@@ -58,7 +72,7 @@ class App extends Component {
 
             <div className="form-group border-top mt-4 pt-4 pb-3">
               <Directory Id="Domain" Label="Вид деятельности"
-                Items={Domains} Selected={Domain}
+                Items={DomainsWithTitles} Selected={Domain}
                 OnChange={this.onDomainChange} />
             </div>
 

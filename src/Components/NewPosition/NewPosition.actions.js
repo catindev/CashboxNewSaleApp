@@ -37,21 +37,29 @@ export const addPosition = () => (dispatch, getState) => {
 
 
 /** Изменить форму позиции */
-export const EDIT_POSITION_FORM = 'Кассир вводит данные в форму новой позиции'
-export const editPosition = (newData) => ({
-    type: EDIT_POSITION_FORM, payload: newData
+export const EDIT_POSITION_FORM = 'Кассир вводит данные в форму новой позиции';
+export const EDIT_NAME = 'Кассир заполняет название товарной позиции';
+export const EDIT_QTY = 'Кассир вводит количество товара';
+export const EDIT_PRICE = 'Кассир заполняет цену товара';
+export const EDIT_SECTION = 'Кассир выбрал секцию';
+export const EDIT_DISCOUNT = 'Кассир вводит значение скидки';
+export const EDIT_MARKUP = 'Кассир заполняет значение наценки';
+
+const editActions = {
+    EDIT_NAME, EDIT_QTY, EDIT_PRICE,
+    EDIT_SECTION, EDIT_DISCOUNT, EDIT_MARKUP
+}
+
+export const editPosition = ({ value, name }) => ({
+    type: editActions[`EDIT_${name.toUpperCase()}`],
+    payload: { [name]: value }
 });
+
 
 /** Сбросить форму новой позиции */
 export const POSITION_FORM_RESET = 'Кассир сбрасывает форму новой позиции'
 export const positionFormReset = index => ({
     type: POSITION_FORM_RESET, index
-});
-
-/** Сторнировать позицию */
-export const TOGGLE_POSITION_STORNO = 'Кассир сторнирует позицию в предчеке'
-export const toggleStorno = index => ({
-    type: TOGGLE_POSITION_STORNO, index
 });
 
 
