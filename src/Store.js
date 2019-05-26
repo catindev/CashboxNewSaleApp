@@ -6,7 +6,8 @@ import reduceReducers from 'reduce-reducers';
 import app from './App/App.reducers';
 import position from './Components/NewPosition/NewPosition.reducers';
 import precheck from './Components/Precheck/Precheck.reducers';
-const reducer = reduceReducers({}, app, position, precheck);
+import cash from './Components/CashForm/CashForm.reducers';
+const reducer = reduceReducers({}, app, position, precheck, cash);
 
 const loggerMiddleware = createLogger({
     collapsed: true

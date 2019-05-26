@@ -12,7 +12,7 @@ const onDomainsError = error => ({
 export const onDomainChange = Domain => ({
     type: CHANGE_DOMAIN, Domain
 });
-export const fetchDomains = ({ IdKkm, Token, API_URL }) => async dispatch => {
+export const fetchDomains = ({ Token, API_URL }) => async dispatch => {
     dispatch({ type: FETCH_DOMAINS });
     try {
         const response = await fetch(

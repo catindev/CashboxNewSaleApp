@@ -43,7 +43,7 @@ class Precheck extends Component {
     onStorno = index => this.props.dispatch(toggleStorno(index))
 
     render() {
-        const { Positions, Total, Cash, NonCash } = this.props;
+        const { Positions, Total, Cash, NonCash, Change } = this.props;
         const hasPositions = Positions.length > 0;
 
         return (
@@ -59,15 +59,15 @@ class Precheck extends Component {
 
                     <Totals
                         Total={Total} Cash={Cash}
-                        NonCash={NonCash} Change={0} />
+                        NonCash={NonCash} Change={Change} />
                 </ul>
             </Fragment>
         )
     }
 }
 
-function mapState({ Positions, Total, Cash, NonCash }) {
-    return { Positions, Total, Cash, NonCash }
+function mapState({ Positions, Total, Cash, NonCash, Change }) {
+    return { Positions, Total, Cash, NonCash, Change }
 }
 
 export default connect(mapState)(Precheck);

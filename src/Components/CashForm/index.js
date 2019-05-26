@@ -12,7 +12,7 @@ function getValue(value) {
 class CashFormContainer extends Component {
 
     change = ({ value, name }) => this.props.dispatch(
-        editCashForm({ [name]: getValue(value) })
+        editCashForm({ value: getValue(value), name })
     )
 
     render() {
