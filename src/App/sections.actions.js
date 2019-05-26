@@ -25,8 +25,7 @@ export const fetchSections = ({ IdKkm, Token, API_URL }) => async dispatch => {
             return dispatch(onSectionsError(Message));
 
         return dispatch(onSectionsSuccess(Data.Sections));
-    }
-    catch (error) {
+    } catch (error) {
         return dispatch(onSectionsError(error.message));
     }
 };

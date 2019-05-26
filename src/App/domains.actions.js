@@ -28,8 +28,7 @@ export const fetchDomains = ({ Token, API_URL }) => async dispatch => {
             return dispatch(onDomainsError(Message));
 
         return dispatch(onDomainsSuccess(Data.Domains));
-    }
-    catch (error) {
+    } catch (error) {
         return dispatch(onDomainsError(error.message));
     }
 };

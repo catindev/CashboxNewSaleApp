@@ -6,7 +6,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { toggleStorno } from './Precheck.actions';
+import { toggleStorno, calculateTotal } from './Precheck.actions';
 
 import Position from "./Position/Position";
 import Totals from "./Total/Total";
@@ -40,7 +40,10 @@ class Precheck extends Component {
         NonCash: PropTypes.number
     }
 
-    onStorno = index => this.props.dispatch(toggleStorno(index))
+    onStorno = index => {
+        this.props.dispatch(toggleStorno(index))
+        this.props.dispatch(calculateTotal())
+    }
 
     render() {
         const { Positions, Total, Cash, NonCash, Change } = this.props;

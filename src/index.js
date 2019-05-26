@@ -2,53 +2,20 @@ import React from 'react';
 import { render } from 'react-dom';
 
 import { Provider } from 'react-redux'
-import setupStore from './Store'
+import setupStore from './Store/';
+import initialState from './Store/initial';
+import ReadCookieByName from './Utils/ReadCookieByName';
 
 import './index.css';
 import App from './App/App';
 import * as serviceWorker from './serviceWorker';
 
-import ReadCookieByName from './Utils/ReadCookieByName';
-
 const root = document.getElementById('NewSaleApp');
 
-/** STATE DESIGN QS: 
- *  - Какие данные на входе и какие данные на выходе?
- *  - Какие ещё могут быть альтернативные сценарии (варианты стейта на финише)? 
- *  - Что будет причиной для каждого сценария?
-*/
 const store = setupStore({
-    // Данные для запросов
+    ...initialState,
     Token: ReadCookieByName('tokken') || false,
-    IdKkm: root.dataset.idKkm || false,
-    Balance: 0,
-    SystemErrors: [],
-
-    // Форма добавления новой позиции
-    Sections: [],
-    Domains: [],
-    PositionForm: {
-        "Name": "",
-        "Price": 0,
-        "Markup": 0,
-        "Discount": 0,
-        "Qty": 1,
-        "Section": 0
-    },
-    PositionFormErrors: {},
-
-    Domain: 0,
-    IdDomain: false,    // Вид деятельности
-
-    /** Предчек */
-    Positions: [],      // Список товарных позиций
-    Total: 0,           // Сумма к оплате     
-    Cash: 0,            // Внесено наличными
-    NonCash: 0,         // Внесено безналом   
-    PrecheckErrors: {},
-
-    //Чек
-    Receipt: false
+    IdKkm: root.dataset.idKkm || false
 });
 
 render(
@@ -59,8 +26,8 @@ render(
         </Provider>)
         : (<div className="alert alert-danger m-4"
             role="alert">
-            <h4 className="alert-heading">Системная ошибка</h4>
-            401: Не авторизованный пользователь
+            <h4 className="alert-heading">Ошибка 401</h4>
+            Неавторизованный пользователь
         </div>)
     , root);
 

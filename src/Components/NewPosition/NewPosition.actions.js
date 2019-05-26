@@ -1,6 +1,5 @@
 import getPositionFormErrors from './getPositionFormErrors';
 import calculatePositionCost from '../../Utils/CalculatePositionCost';
-import { CALCULATE_TOTAL } from '../Precheck/Precheck.actions'
 
 export const RESET_POSITION_ERRORS = 'Приложение сбрасывает ошибки на форме новой позиции';
 
@@ -18,12 +17,17 @@ export const validatePositionForm = Position => {
 
 export const calculateAndAddPosition = Position => (dispatch, getState) => {
     const { Name, Id, Nds } = getState().Sections[Position.Section];
+
     const newPosition = { ...Position, SectionName: Name, IdSection: Id, Nds };
+
     const Cost = calculatePositionCost(newPosition);
     const NdsValue = ((Cost / ((Nds / 100) + 1)) * (Nds / 100)).toFixed(2);
 
-    dispatch({ type: ADD_POSITION, Position: { ...newPosition, Cost, NdsValue } });
-    dispatch({ type: CALCULATE_TOTAL })
+    dispatch({
+        type: ADD_POSITION,
+        Position: { ...newPosition, Cost, NdsValue },
+        Total: getState().Total += Cost
+    });
 };
 
 

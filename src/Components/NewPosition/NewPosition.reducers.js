@@ -25,7 +25,7 @@ export default function positionsReducer(state = {}, action) {
         case ADD_POSITION:
             if (state.SystemErrors.length > 0 || state.Fetching) return state;
             const Positions = [...state.Positions, action.Position];
-            return { ...state, PositionForm, Positions };
+            return { ...state, PositionForm, Positions, Total: action.Total };
 
         case EDIT_POSITION_FORM:
             return {
