@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 
 import {
     RESET_POSITION_ERRORS,
-    validatePositionForm,
+    POSITION_FORM_RESET,
     editPosition,
-    positionFormReset
+    validatePositionForm,
+    calculatePosition,
+    addPosition,
 } from './NewPosition.actions';
 
 import NewPosition from './NewPosition';
@@ -24,11 +26,21 @@ class NewPositionContainer extends Component {
     )
 
     submit = () => {
-        this.props.dispatch({ type: RESET_POSITION_ERRORS })
-        this.props.dispatch(validatePositionForm(this.props.PositionForm));
+        const {
+            PositionForm: Position, PositionFormErrors: Errors,
+            Sections, Total, dispatch
+        } = this.props;
+
+        dispatch({ type: RESET_POSITION_ERRORS });
+
+        dispatch(validatePositionForm(Position));
+
+        dispatch(calculatePosition(Position, Errors, Sections));
+
+        dispatch(addPosition(Position, Errors, Total));
     }
 
-    reset = () => this.props.dispatch(positionFormReset())
+    reset = () => this.props.dispatch({ type: POSITION_FORM_RESET });
 
     render() {
         const {
@@ -51,8 +63,8 @@ class NewPositionContainer extends Component {
     }
 }
 
-function mapState({ Sections, PositionForm, PositionFormErrors }) {
-    return { Sections, PositionForm, PositionFormErrors }
+function mapState({ Sections, PositionForm, PositionFormErrors, Total }) {
+    return { Sections, PositionForm, PositionFormErrors, Total }
 }
 
 export default connect(mapState)(NewPositionContainer)

@@ -10,7 +10,7 @@ import './NewPosition.css';
 import InputNumber from '../Common/InputNumber/InputNumber';
 import Directory from '../Common/Directory/Directory';
 
-const ErrorMessage = ({ List = {} }) => Object.keys(List).length > 0 ?
+const ErrorsMessage = ({ List = {} }) => Object.keys(List).length > 0 ?
     (
         <div className="NewPosition__alert alert alert-warning mb-4 shadow"
             role="alert">
@@ -34,7 +34,7 @@ function NewPosition({
     return (
         <Fragment>
             <h4 className="mb-3">Добавить позицию</h4>
-            <ErrorMessage List={Errors} />
+            <ErrorsMessage List={Errors} />
 
             <form className="needs-validation" noValidate
                 onSubmit={submit}>

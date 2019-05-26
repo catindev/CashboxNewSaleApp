@@ -2,7 +2,8 @@ import {
     RESET_POSITION_ERRORS,
     EDIT_POSITION_FORM,
     ADD_POSITION,
-    ADD_POSITION_ERROR,
+    VALIDATE_POSITION_ERRORS,
+    POSITION_CALCULATED,
     POSITION_FORM_RESET
 } from './NewPosition.actions';
 
@@ -34,17 +35,18 @@ export default function positionsReducer(state = {}, action) {
                 }
             };
 
-        case ADD_POSITION_ERROR:
+        case VALIDATE_POSITION_ERRORS:
             return {
                 ...state, PositionFormErrors: {
                     ...state.PositionFormErrors, ...action.errors
                 }
             };
 
+        case POSITION_CALCULATED:
+            return { ...state, PositionForm: action.Position };
+
         case POSITION_FORM_RESET:
-            return {
-                ...state, PositionForm, PositionFormErrors: {}
-            };
+            return { ...state, PositionForm, PositionFormErrors: {} };
 
         default:
             return state;
