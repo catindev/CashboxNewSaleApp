@@ -5,21 +5,10 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import './NewPosition.css';
 
 import InputNumber from '../Common/InputNumber/InputNumber';
 import Directory from '../Common/Directory/Directory';
-
-const ErrorMessage = ({ List = {} }) => Object.keys(List).length > 0 ?
-    (
-        <div className="NewPosition__alert alert alert-warning mb-4 shadow"
-            role="alert">
-            <h5 className="alert-heading">Ошибка при добавлении позиции</h5>
-            {Object.keys(List).map((field, i) => <p key={i}>{List[field]}</p>)}
-            <hr />
-            <small>Исправьте ошибки и попробуйте добавить позицию ещё раз</small>
-        </div>
-    ) : null;
+import Alert from '../Common/Alert/Alert';
 
 function NewPosition({
     Name, Price = 0, Qty = 1, Discount = 0, Markup = 0, Section,
@@ -30,14 +19,17 @@ function NewPosition({
     const submit = e => { e.preventDefault(); OnSubmit(e); };
     const isValid = fieldName => Object.keys(Errors).length > 0 ?
         (fieldName in Errors && 'is-invalid') : false;
+    const errors = Object.keys(Errors).map(key => Errors[key]);
 
     return (
         <Fragment>
             <h4 className="mb-3">Добавить позицию</h4>
-            <ErrorMessage List={Errors} />
 
-            <form className="needs-validation" noValidate
-                onSubmit={submit}>
+            <Alert Title="Ошибка при добавлении позиции" Type="warning" List={errors}>
+                Исправьте ошибки и попробуйте добавить позицию ещё раз
+            </Alert>
+
+            <form className="needs-validation" noValidate onSubmit={submit}>
 
                 <div className="form-row pt-2">
                     <div className="form-group col-md-7">

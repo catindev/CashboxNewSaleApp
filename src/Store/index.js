@@ -3,10 +3,10 @@ import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
 import reduceReducers from 'reduce-reducers';
-import app from '../App/App.reducers';
-import position from '../Components/NewPosition/NewPosition.reducers';
-import precheck from '../Components/Precheck/Precheck.reducers';
-import cash from '../Components/CashForm/CashForm.reducers';
+import app from '../App/App.reducer';
+import position from '../Components/NewPosition/NewPosition.reducer';
+import precheck from '../Components/Precheck/Precheck.reducer';
+import cash from '../Components/CashForm/CashForm.reducer';
 const reducer = reduceReducers({}, app, position, precheck, cash);
 
 const loggerMiddleware = createLogger({

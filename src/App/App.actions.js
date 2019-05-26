@@ -1,36 +1,33 @@
+import getErrors from './getErrors';
 
-export const PRECHECK_VALIDATE = 'Приложение проверяет предчек';
 export const PRECHECK_SAVE = 'Кассир сохранил предчек';
-export const PRECHECK_SAVED = 'Предчек сохранён';
-export const PRECHECK_ERRORS = 'Ошибки проверки предчека';
-export const PRECHECK_SAVE_ERRORS = 'Ошибки сохранения предчека';
-export const PRECHECK_RESET_ERRORS = 'Приложение сбрасывает ошибки с формы сохранения предчека';
+export const PRECHECK_SAVED = 'Предчек сохранён в базе данных';
+export const PRECHECK_ERRORS = 'Кассир попытался сохранить предчек с ошибками';
+export const PRECHECK_SAVE_ERRORS = 'Ошибка сохранения предчека в базу данных';
+// export const PRECHECK_RESET_ERRORS = 'Приложение сбрасывает ошибки с формы сохранения предчека';
 
-const getPrecheckErrors = () => ({})
-export const precheckValidate = state => {
-    const errors = getPrecheckErrors(state);
-    return Object.keys(errors).length > 0 ?
-        { type: PRECHECK_ERRORS, errors }
-        :
-        precheckSave(state);
-}
-
-const onPrecheckSuccess = () => ({
+const onPrecheckSuccess = Data => ({
     type: PRECHECK_SAVED
 });
 const onPrecheckError = error => ({
     type: PRECHECK_SAVE_ERRORS, error
 });
 
-const precheckSave = state => async dispatch => {
+export const validateAndSavePrecheck = API_URL => async (dispatch, getState) => {
+    const PrecheckErrors = getErrors(getState());
+
+    if (PrecheckErrors.length > 0) return dispatch({
+        type: PRECHECK_ERRORS,
+        PrecheckErrors
+    });
+
     dispatch({ type: PRECHECK_SAVE });
     try {
-        const { Token, API_URL } = state;
-        const body = {}; // TODO: собрать предчек на отправку
+        const { Token, IdDomain, Cash, NonCash, Positions, Total } = getState();
 
         const response = await fetch(`${API_URL}/operations/sales`, {
             method: 'post',
-            body: JSON.stringify(body),
+            body: JSON.stringify({ IdDomain, Positions, Cash, NonCash, Total }),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${Token}`
@@ -42,7 +39,7 @@ const precheckSave = state => async dispatch => {
         if (Status !== 200)
             return dispatch(onPrecheckError(Message));
 
-        return dispatch(onPrecheckSuccess());
+        return dispatch(onPrecheckSuccess(Data));
     } catch (error) {
         return dispatch(onPrecheckError(error.message));
     }

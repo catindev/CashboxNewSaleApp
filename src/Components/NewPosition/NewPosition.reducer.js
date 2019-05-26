@@ -48,7 +48,11 @@ export default function positionsReducer(state = {}, action) {
             if (state.SystemErrors.length > 0 || state.Fetching) return state;
 
             const Positions = [...state.Positions, action.Position];
-            return { ...state, PositionForm, Positions, Total: action.Total };
+            return {
+                ...state, PositionForm, Positions,
+                Total: action.Total,
+                PrecheckSaved: false
+            };
 
         default:
             return state;

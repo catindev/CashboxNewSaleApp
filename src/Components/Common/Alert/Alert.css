@@ -1,9 +1,14 @@
-.NewPosition__alert p {
+.NewSale__alert p {
     font-size: 14px;
     margin-block-start: .15rem !important;
     margin-block-end: .15rem !important;
 }
 
-.NewPosition__alert hr {
+.NewSale__alert hr {
     margin: 10px 0 !important;
+    opacity: .98;
+}
+
+.NewSale__alert small {
+    opacity: .7;
 }

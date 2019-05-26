@@ -5,9 +5,17 @@ export default {
     Balance: 0,
     SystemErrors: [],
 
-    // Форма добавления новой позиции
+    // Секции
     Sections: [],
+    SectionsFetching: false,
+
+    // Вид деятельности
     Domains: [],
+    DomainsFetching: false,
+    Domain: 0,
+    IdDomain: false,
+
+    // Форма добавления новой позиции
     PositionForm: {
         "Name": "",
         "Price": 0,
@@ -18,16 +26,15 @@ export default {
     },
     PositionFormErrors: {},
 
-    Domain: 0,
-    IdDomain: false,    // Вид деятельности
-
     /** Предчек */
     Positions: [],      // Список товарных позиций
     Total: 0,           // Сумма к оплате     
     Cash: 0,            // Внесено наличными
     NonCash: 0,         // Внесено безналом   
-    PrecheckErrors: {},
+    PrecheckErrors: [],
+    PrecheckSaving: false,
+    PrecheckSaved: false,
 
     //Чек
-    Receipt: false
+    Receipt: '#'
 };

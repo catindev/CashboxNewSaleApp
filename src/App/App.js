@@ -2,29 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 
-import AppSettings from '../Utils/Settings.json';
+import { API_URL } from '../Utils/Settings.json';
 
 import { fetchDomains, onDomainChange } from './domains.actions';
 import { fetchSections } from './sections.actions';
+import { validateAndSavePrecheck } from './App.actions';
 
 import Precheck from '../Components/Precheck';
 import NewPositionForm from '../Components/NewPosition';
 import CashForm from '../Components/CashForm'
 import Directory from '../Components/Common/Directory/Directory';
-
-
-const SysErrors = ({ List = [] }) => List.length > 0 ?
-  (
-    <div className="NewPosition__alert alert alert-danger mb-3" role="alert">
-      <h5 className="alert-heading">Системные ошибки</h5>
-      {List.map((error, i) => <p key={i}>{error}</p>)}
-      <hr />
-      <small>
-        Проверьте соединение с интернетом и обновите страницу.<br />
-        Если проблема повторится, то обратитесь за помощью в тех. поддержку
-      </small >
-    </div>
-  ) : null;
+import MainButton from './Button';
+import Alert from '../Components/Common/Alert/Alert';
 
 const DomainTitles = {
   "DOMAIN_TRADING": "Торговля",
@@ -40,7 +29,6 @@ class App extends Component {
 
   componentDidMount() {
     const { IdKkm, Token } = this.props;
-    const { API_URL } = AppSettings;
 
     this.props.dispatch(fetchSections({ IdKkm, Token, API_URL }));
     this.props.dispatch(fetchDomains({ IdKkm, Token, API_URL }));
@@ -49,8 +37,13 @@ class App extends Component {
   onDomainChange = ({ target: { value } }) =>
     this.props.dispatch(onDomainChange(parseInt(value)));
 
+  save = () => this.props.dispatch(validateAndSavePrecheck(API_URL));
+
   render() {
-    const { SystemErrors, Domains, Domain } = this.props;
+    const {
+      SystemErrors, PrecheckErrors, Domains, Domain,
+      PrecheckSaving, PrecheckSaved, Receipt
+    } = this.props;
     const DomainsWithTitles = Domains.map(
       ({ Id, Name }) => ({ Id, Name: DomainTitles[Name] })
     );
@@ -58,7 +51,10 @@ class App extends Component {
     return (
       <div className="container pt-4 pb-5">
 
-        <SysErrors List={SystemErrors} />
+        <Alert Title="Системные ошибки" List={SystemErrors}>
+          Проверьте подключение к интернету и попробуйте обновить страницу<br />
+          Если проблема повторится, то обратитесь в техническую поддержку.
+        </Alert>
 
         <h1 className="h2 pt-3 pb-2 mb-3 border-bottom">Новая продажа</h1>
 
@@ -70,7 +66,7 @@ class App extends Component {
           <div className="col-md-7 order-md-1 pr-3">
             <NewPositionForm />
 
-            <div className="form-group border-top mt-4 pt-4 pb-3">
+            <div className="form-group border-top mt-4 pt-4 pb-2">
               <Directory Id="Domain" Label="Вид деятельности"
                 Items={DomainsWithTitles} Selected={Domain}
                 OnChange={this.onDomainChange} />
@@ -78,10 +74,23 @@ class App extends Component {
 
             <CashForm />
 
-            <hr className="mb-4" />
-            <button className="btn btn-success btn-lg btn-block">
-              Оформить продажу
-            </button>
+            <div className="form-group border-top mt-4 pt-4 pb-3">
+              <Alert Title="Ошибки оформления продажи" List={PrecheckErrors}>
+                Исправьте ошибки и попробуйте оформить продажу ещё раз
+              </Alert>
+
+              {PrecheckSaved && (
+                <Alert Title="Операция сохранена" Type="info"
+                  List={['Продажа оформлена']}>
+                  <a class="btn btn-primary btn-sm" href={Receipt} role="button">
+                    <span role="img" aria-label="Receipt">🧾 </span>
+                    Открыть чек
+                  </a>
+                </Alert>
+              )}
+
+              <MainButton onClick={this.save} isFetching={PrecheckSaving} />
+            </div>
           </div>
 
         </div>
@@ -90,8 +99,14 @@ class App extends Component {
   }
 }
 
-function mapState({ SystemErrors, IdKkm, Token, Domains, Domain }) {
-  return { SystemErrors, IdKkm, Token, Domains, Domain }
-}
+const mapState = ({
+  SystemErrors, IdKkm, Token, Domains, Domain,
+  PrecheckErrors, PrecheckSaving, PrecheckSaved,
+  Receipt
+}) => ({
+  SystemErrors, IdKkm, Token, Domains, Domain,
+  PrecheckErrors, PrecheckSaving, PrecheckSaved,
+  Receipt
+});
 
 export default connect(mapState)(App)

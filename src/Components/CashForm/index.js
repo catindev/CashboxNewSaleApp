@@ -19,7 +19,6 @@ class CashFormContainer extends Component {
         const { Cash, NonCash } = this.props
         return (
             <Fragment>
-                <hr className="mb-4" />
                 <CashForm
                     Cash={Cash}
                     NonCash={NonCash}
