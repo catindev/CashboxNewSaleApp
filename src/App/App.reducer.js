@@ -92,6 +92,7 @@ export default function appReducers(state = {}, action) {
                 Cash: 0,
                 NonCash: 0,
                 Change: 0,
+                Total: 0,
                 PositionForm,
                 PrecheckSaving: false,
                 PrecheckSaved: true
